@@ -23,19 +23,87 @@ int dump_content(const char* a)
     return (0);
 }
 
-int main(int ac, char** av)
+int dump_head()
+{
+    puts("<head>"
+         "<meta charset=\"UTF-8\">"
+         "<title>" TOSTRING(BLOG_TITLE) "</title>");
+    dump_content(TOSTRING(CSS));
+    puts("</head>");
+    return (0);
+}
+
+int dump_header()
+{
+    puts("<header>");
+    puts("<h1>" TOSTRING(BLOG_TITLE) "</h1>");
+    puts("<p>Author: " TOSTRING(BLOG_AUTHOR) "");
+    puts("<p>Blog source: <a href=" TOSTRING(BLOG_GIT) ">" TOSTRING(BLOG_GIT) "</a>");
+    puts("</header>");
+
+}
+
+int dump_footer()
+{
+    // TODO ?
+    return (0);
+}
+
+int dump_aside()
+{
+    puts("<aside>");
+    puts("<p>TO");
+    puts("<p>DO");
+    puts("</aside>");
+    return (0);
+}
+
+int dump_nav()
+{
+    puts("<nav>");
+    puts("<ul>"
+         "<li>TO</li>"
+         "<li>DO</li>"
+         "</ul>");
+    puts("</nav>");
+    return (0);
+}
+
+int dump_body()
 {
     char* articles;
     char* article;
 
-    puts("Content-type: text/html\n\n");
-    dump_content(TOSTRING(CSS));
+    puts("<body>");
+
+    dump_header();
+    dump_nav();
+
+    puts("<section>");
+    dump_aside();
+
     articles = strdup(TOSTRING(ARTICLES));
     for (article = strtok(articles, " ");
          article;
          article = strtok(NULL, " ")) {
+        puts("<article>");
         dump_content(article);
+        puts("</article>");
     }
     free(articles);
+    puts("</section>");
+
+    dump_footer();
+
+    puts("</body>");
+    return (0);
+}
+
+int main(int ac, char** av)
+{
+    puts("<!DOCTYPE html><html>");
+    dump_head();
+    dump_body();
+    puts("</html>");
     return (0);
 }

@@ -1,3 +1,7 @@
+BLOG_TITLE	=	"My cool blog which is cool"
+BLOG_AUTHOR	=	"Spi"
+BLOG_GIT	=	"https:\/\/github.com/spikat/myfcgiblog"
+
 INSTALL_DIR	=	~/public_html/fastcgi/
 
 NAME		=	myblog.cgi
@@ -15,7 +19,12 @@ RM		=	rm -f
 CC		=	gcc
 
 %.o		:	%.c
-			$(CC) -o $@ -c $< $(CFLAGS) -DARTICLES="$(ARTICLES_HTML)" -DCSS="$(CSS)"
+			$(CC) -o $@ -c $< $(CFLAGS) \
+			-DARTICLES="$(ARTICLES_HTML)" \
+			-DCSS=$(CSS) \
+			-DBLOG_TITLE=$(BLOG_TITLE) \
+			-DBLOG_AUTHOR=$(BLOG_AUTHOR) \
+			-DBLOG_GIT=$(BLOG_GIT)
 
 %.html	:	%.md
 			markdown $< > $@
