@@ -28,8 +28,9 @@ int dump_head()
     puts("<head>"
          "<meta charset=\"UTF-8\">"
          "<title>" TOSTRING(BLOG_TITLE) "</title>");
+    puts("<style type=\"text/css\">");
     dump_content(TOSTRING(CSS));
-    puts("</head>");
+    puts("</style></head>");
     return (0);
 }
 
@@ -39,21 +40,21 @@ int dump_header()
     puts("<h1>" TOSTRING(BLOG_TITLE) "</h1>");
     puts("<p>Author: " TOSTRING(BLOG_AUTHOR) "");
     puts("<p>Blog source: <a href=" TOSTRING(BLOG_GIT) ">" TOSTRING(BLOG_GIT) "</a>");
+    dump_nav();
     puts("</header>");
-
 }
 
 int dump_footer()
 {
-    // TODO ?
+    puts("<footer>footer</footer>");
     return (0);
 }
 
 int dump_aside()
 {
     puts("<aside>");
-    puts("<p>TO");
-    puts("<p>DO");
+    puts("<p>aside");
+    puts("<p>aside");
     puts("</aside>");
     return (0);
 }
@@ -62,8 +63,8 @@ int dump_nav()
 {
     puts("<nav>");
     puts("<ul>"
-         "<li>TO</li>"
-         "<li>DO</li>"
+         "<li>nav</li>"
+         "<li>nav</li>"
          "</ul>");
     puts("</nav>");
     return (0);
@@ -77,7 +78,6 @@ int dump_body()
     puts("<body>");
 
     dump_header();
-    dump_nav();
 
     puts("<section>");
     dump_aside();
