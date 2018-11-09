@@ -19,9 +19,9 @@ header {
 
 aside {
     float: right;
-    max-width: 10%;
+    max-width: 20%;
     padding-bottom: 10px;
-    padding-left: 10px;
+    padding-right: 10px;
 
     background: #a10000;
     color: white;

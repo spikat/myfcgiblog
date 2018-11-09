@@ -17,9 +17,26 @@ int dump_content(const char* a)
     f = fopen(a, "r");
     if (!f) return (ENOENT);
     while (fgets(buf, BUFSZ, f)) {
-        puts(buf);
+        printf("%s", buf);
     }
     fclose(f);
+    return (0);
+}
+
+int filename_to_title(char* filename)
+{
+    int i;
+
+    for (int i = 0; filename[i]; i++) {
+        if (i == 0 && filename[i] >= 'a' && filename[i] <= 'z') {
+            filename[i] = filename[i] - 'a' + 'A';
+        }
+        if (filename[i] == '_') filename[i] = ' ';
+        if (!strcmp(filename + i, ".html")) {
+            filename[i] = '\0';
+            break;
+        }
+    }
     return (0);
 }
 
@@ -52,31 +69,26 @@ int dump_footer()
 
 int dump_aside()
 {
-    puts("<aside>");
-    puts("<p>aside");
-    puts("<p>aside");
-    puts("<p>aside");
-    puts("<p>aside");
-    puts("<p>aside");
-    puts("<p>aside");
-    puts("<p>aside");
-    puts("<p>aside");
-    puts("<p>aside");
-    puts("<p>aside");
-    puts("<p>aside");
-    puts("<p>aside");
-    puts("<p>aside");
-    puts("</aside>");
+    char* articles;
+    char* article;
+
+    puts("<aside><ul>");
+        articles = strdup(TOSTRING(ARTICLES));
+    for (article = strtok(articles, " ");
+         article;
+         article = strtok(NULL, " ")) {
+        filename_to_title(article);
+        printf("<li>%s</li>\n", article);
+    }
+    free(articles);
+    puts("</ul></aside>");
     return (0);
 }
 
 int dump_nav()
 {
     puts("<nav>");
-    puts("<ul>"
-         "<li>nav</li>"
-         "<li>nav</li>"
-         "</ul>");
+    puts("TODO: nav");
     puts("</nav>");
     return (0);
 }
@@ -100,8 +112,8 @@ int dump_body()
         puts("</article>");
     }
     free(articles);
-    puts("</section>");
 
+    puts("</section>");
     dump_footer();
     puts("</body>");
     return (0);
@@ -109,7 +121,7 @@ int dump_body()
 
 int main(int ac, char** av)
 {
-    puts("<!DOCTYPE html><html>");
+    puts("<!DOCTYPE HTML><html>");
     dump_head();
     dump_body();
     puts("</html>");
