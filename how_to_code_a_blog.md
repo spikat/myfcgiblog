@@ -1,17 +1,19 @@
-# Why ?
+# How to code a blog
+
+## Why ?
 
 .. why not? :)
 
-# Requirements 
+## Requirements
 
 * http server (personally, I use lighttpd).
 * gcc (any version)
 * libfcgi
 * emacs (other crappy editors may also works).
 
-# HOW TO
+## HOW TO
 
-## Install and setup your http server
+### Install and setup your http server
 
 For lighttpd, look here: https://redmine.lighttpd.net/projects/1/wiki/docs_modfastcgi
 OR here: http//google.com :)
