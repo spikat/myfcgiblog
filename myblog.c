@@ -55,6 +55,17 @@ int dump_aside()
     puts("<aside>");
     puts("<p>aside");
     puts("<p>aside");
+    puts("<p>aside");
+    puts("<p>aside");
+    puts("<p>aside");
+    puts("<p>aside");
+    puts("<p>aside");
+    puts("<p>aside");
+    puts("<p>aside");
+    puts("<p>aside");
+    puts("<p>aside");
+    puts("<p>aside");
+    puts("<p>aside");
     puts("</aside>");
     return (0);
 }
@@ -76,9 +87,7 @@ int dump_body()
     char* article;
 
     puts("<body>");
-
     dump_header();
-
     puts("<section>");
     dump_aside();
 
@@ -94,7 +103,6 @@ int dump_body()
     puts("</section>");
 
     dump_footer();
-
     puts("</body>");
     return (0);
 }
