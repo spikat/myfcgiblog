@@ -1,3 +1,15 @@
+h1 {
+    color:#a10000;
+}
+
+blockquote
+{
+  font-style: italic;
+  margin-left: 32px;
+  background: white;
+  /* font-family: Georgia, "Times New Roman", serif; */
+}
+
 html {
     padding: 20px;
 }
@@ -12,7 +24,6 @@ header {
     padding-bottom: 10px;
 
     text-align: center;
-    text-transform: uppercase;
     color: black;
     background: #d1d1d1;
 }
@@ -36,11 +47,6 @@ article {
     background: #d1d1d1;
     color: black;
 }
-
-h1 {
-    color:#a10000;
-}
-
 footer {
     float:bottom;
     padding-top: 10px ;

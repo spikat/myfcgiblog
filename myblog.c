@@ -3,6 +3,8 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include "config.h"
+
 #define STRINGIFY(x) #x
 #define TOSTRING(x) STRINGIFY(x)
 
@@ -13,12 +15,12 @@ int dump_content(const char* a)
 {
     FILE*   f;
     char    buf[BUFSZ + 1];
+
     buf[BUFSZ] = '\0';
     f = fopen(a, "r");
     if (!f) return (ENOENT);
-    while (fgets(buf, BUFSZ, f)) {
+    while (fgets(buf, BUFSZ, f))
         printf("%s", buf);
-    }
     fclose(f);
     return (0);
 }
@@ -44,26 +46,38 @@ int dump_head()
 {
     puts("<head>"
          "<meta charset=\"UTF-8\">"
-         "<title>" TOSTRING(BLOG_TITLE) "</title>");
+         "<title>" BLOG_TITLE "</title>");
     puts("<style type=\"text/css\">");
-    dump_content(TOSTRING(CSS));
+    dump_content(TOSTRING(_CSS));
     puts("</style></head>");
+    return (0);
+}
+
+int dump_nav()
+{
+    puts("<nav>");
+    puts("</nav>");
     return (0);
 }
 
 int dump_header()
 {
     puts("<header>");
-    puts("<h1>" TOSTRING(BLOG_TITLE) "</h1>");
-    puts("<p>Author: " TOSTRING(BLOG_AUTHOR) "");
-    puts("<p>Blog source: <a href=" TOSTRING(BLOG_GIT) ">" TOSTRING(BLOG_GIT) "</a>");
+    puts("<h1>" BLOG_TITLE "</h1>");
+    puts("<p>Author: " BLOG_AUTHOR "");
     dump_nav();
     puts("</header>");
 }
 
 int dump_footer()
 {
-    puts("<footer>footer</footer>");
+    puts("<footer>");
+#ifdef BLOG_AUTHOR_MAIL
+    if (strlen(BLOG_AUTHOR_MAIL))
+        puts("<p>Contact: <a href=\"mailto:"BLOG_AUTHOR_MAIL"\">"BLOG_AUTHOR_MAIL"</a>");
+#endif /* BLOG_AUTHOR_MAIL */
+    puts("<p>Blog source: <a href="BLOG_GIT">"BLOG_GIT"</a>");
+    puts("</footer>");
     return (0);
 }
 
@@ -71,25 +85,19 @@ int dump_aside()
 {
     char* articles;
     char* article;
+    int i;
 
     puts("<aside><ul>");
-        articles = strdup(TOSTRING(ARTICLES));
-    for (article = strtok(articles, " ");
+    articles = strdup(TOSTRING(_ARTICLES));
+    article = strtok(articles, " ");
+    for (i = 0/* , article = strtok(articles, " ") */;
          article;
-         article = strtok(NULL, " ")) {
+         i++, article = strtok(NULL, " ")) {
         filename_to_title(article);
-        printf("<li>%s</li>\n", article);
+        printf("<li><a href=\"#_%i\"><font color=\"white\">%s</font></a></li>\n", i, article);
     }
     free(articles);
     puts("</ul></aside>");
-    return (0);
-}
-
-int dump_nav()
-{
-    puts("<nav>");
-    puts("TODO: nav");
-    puts("</nav>");
     return (0);
 }
 
@@ -97,17 +105,19 @@ int dump_body()
 {
     char* articles;
     char* article;
+    int i;
 
     puts("<body>");
     dump_header();
     puts("<section>");
     dump_aside();
 
-    articles = strdup(TOSTRING(ARTICLES));
-    for (article = strtok(articles, " ");
+    articles = strdup(TOSTRING(_ARTICLES));
+    for (i = 0, article = strtok(articles, " ");
          article;
-         article = strtok(NULL, " ")) {
+         i++, article = strtok(NULL, " ")) {
         puts("<article>");
+        printf("<a name=\"_%i\"></a>", i);
         dump_content(article);
         puts("</article>");
     }
