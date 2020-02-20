@@ -9,14 +9,15 @@
 * http server (personally, I use lighttpd).
 * gcc (any version)
 * libfcgi
+* markdown and pygments (installed with pip).
 * emacs (other crappy editors may also works).
 
 ## HOW TO
 
 ### Install and setup your http server
 
-For lighttpd, look here: https://redmine.lighttpd.net/projects/1/wiki/docs_modfastcgi
-OR here: http//google.com :)
+For lighttpd, [look here](https://redmine.lighttpd.net/projects/1/wiki/docs_modfastcgi)
+OR [here](http://google.com). :)
 
 ## Wrote your articles
 

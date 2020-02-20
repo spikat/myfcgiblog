@@ -18,7 +18,7 @@ CC		=	gcc
 			-D_CSS=$(CSS)
 
 %.html	:	%.md
-			markdown $< > $@
+			python -m markdown -x codehilite $< > $@
 
 all 	:	htmls cgi
 
