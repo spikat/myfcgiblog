@@ -2,8 +2,6 @@
 
 ## make something more ... dynamic.
 
-### ability to open one article page
-
 ### metadatas
 
 Add a way to add metadata to articles, like tags, date (+last modified),

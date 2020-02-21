@@ -25,21 +25,24 @@ int dump_content(const char* a)
     return (0);
 }
 
-int filename_to_title(char* filename)
+char* filename_to_title(char* filename)
 {
     int i;
+    char* title;
 
+    title = malloc(strlen(filename));
+    strcpy(title, filename);
     for (int i = 0; filename[i]; i++) {
         if (i == 0 && filename[i] >= 'a' && filename[i] <= 'z') {
-            filename[i] = filename[i] - 'a' + 'A';
+            title[i] = filename[i] - 'a' + 'A';
         }
-        if (filename[i] == '_') filename[i] = ' ';
+        if (filename[i] == '_') title[i] = ' ';
         if (!strcmp(filename + i, ".html")) {
-            filename[i] = '\0';
+            title[i] = '\0';
             break;
         }
     }
-    return (0);
+    return (title);
 }
 
 int dump_head()
@@ -64,6 +67,7 @@ int dump_header()
 {
     puts("<header>");
     puts("<h1>" BLOG_TITLE "</h1>");
+    /* printf("<h1><a href=\"%s\">%s</a></h1>\n", getenv("SCRIPT_NAME"), BLOG_TITLE); */
     puts("<p>Author: " BLOG_AUTHOR "");
     dump_nav();
     puts("</header>");
@@ -85,16 +89,22 @@ int dump_aside()
 {
     char* articles;
     char* article;
+    char* script;
+    char* title;
     int i;
 
+    script = getenv("SCRIPT_NAME");
     puts("<aside><ul>");
     articles = strdup(TOSTRING(_ARTICLES));
     article = strtok(articles, " ");
+    printf("<li><a href=\"%s\">%s</a></li>\n", getenv("SCRIPT_NAME"), "Home page");
     for (i = 0/* , article = strtok(articles, " ") */;
          article;
          i++, article = strtok(NULL, " ")) {
-        filename_to_title(article);
-        printf("<li><a href=\"#_%i\"><font color=\"white\">%s</font></a></li>\n", i, article);
+        title = filename_to_title(article);
+        printf("<li><a href=\"%s/%s\"><font color=\"white\">%s</font></a></li>\n",
+               script, article, title);
+        free(title);
     }
     free(articles);
     puts("</ul></aside>");
@@ -106,6 +116,9 @@ int dump_body()
     char* articles;
     char* article;
     int i;
+    char* request;
+    char* script;
+    char* toprint = NULL;
 
     puts("<body>");
     dump_header();
@@ -113,9 +126,17 @@ int dump_body()
     dump_aside();
 
     articles = strdup(TOSTRING(_ARTICLES));
+    script = getenv("SCRIPT_NAME");
+    request = getenv("REQUEST_URI");
+    /* -1 is for the '/' case on "myblog.cgi/" */
+    if (strlen(script) < strlen(request) - 1)
+        toprint = request + strlen(script) + 1;
+
     for (i = 0, article = strtok(articles, " ");
          article;
          i++, article = strtok(NULL, " ")) {
+        if (toprint && strcmp(toprint, article))
+            continue;
         puts("<article>");
         printf("<a name=\"_%i\"></a>", i);
         dump_content(article);
