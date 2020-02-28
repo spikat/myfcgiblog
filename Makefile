@@ -15,6 +15,7 @@ CC		=	gcc
 %.o		:	%.c
 			$(CC) -o $@ -c $< $(CFLAGS) \
 			-D_ARTICLES="$(ARTICLES_HTML)" \
+			-D_GALLERIES="$(GALLERIES_DIR)" \
 			-D_CSS=$(CSS)
 
 %.html	:	%.md
@@ -38,3 +39,4 @@ re		:	fclean all
 install	:	all
 			mkdir -p $(INSTALL_DIR)
 			cp -f $(NAME) $(ARTICLES_HTML) $(CSS) $(INSTALL_DIR)/
+			cp -fr $(GALLERIES_DIR) $(INSTALL_DIR)/
